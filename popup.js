@@ -30,7 +30,11 @@ const filledClass = "filled";
 const maxRating = 5;
 
 const stars = document.getElementById("stars");
-let currentRating = 0;
+let currentRating;
+
+chrome.storage.sync.get("rating", ({ rating }) => {
+  currentRating = rating;
+});
 
 if (maxRating > 0) {
   for (let i=1; i<=maxRating; i++) {
@@ -51,6 +55,7 @@ function addListeners(star) {
   
   star.addEventListener("click", () => {
     currentRating = n;
+    chrome.storage.sync.set({ rating: currentRating });
     addFill(-1);
   });
   
